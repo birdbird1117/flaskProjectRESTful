@@ -11,6 +11,18 @@ user = (1, 'jose', 'asdf')
 insert_query = "INSERT INTO users VALUES(?,?,?)"
 cursor.execute(insert_query, user)
 
+users = [
+    (2, 'jose2', 'asdf2'),
+    (3, 'jose3', 'asdf3')
+
+]
+
+cursor.executemany(insert_query, users)
+
+select_query = "SELECT * FROM users"
+for row in cursor.execute(select_query):
+    print(row)
+
 connection.commit()
 
 connection.close()
