@@ -4,7 +4,7 @@ import sqlite3
 
 class Item(Resource):
 
-    // CRUD API
+    # CRUD API
     parser = reqparse.RequestParser()
     parser.add_argument('price',
                         type=float,
@@ -50,8 +50,14 @@ class Item(Resource):
         return item, 201
 
     def delete(self, name):
-        global items
-        items = list(filter(lambda x: x['name'] != name, items))
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "DELETE FROM items WHERE name=?"
+        cursor.execute(query, (name, ))
+
+        connection.commit()
+        connection.close()
         return {'message': 'Item deleted'}
 
     def put(self, name):
